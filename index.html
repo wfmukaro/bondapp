@@ -3,14 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Bond Calculator</title>
+    <style>
+        body{
+            background-color:rosybrown;
+            font-family: "Baskerville Old Face";
+            font-size: 18px;
+        }
+        legend{
+            text-align: center;
+            font-size: 20px;
+        }
+      fieldset{
+          width: 40%;
+      }
+        table{
+           width: 100%;
+        }
+    </style>
 </head>
 <body>
-<form action="submitform" method="post">
-    Purchase Price:<input type="number" name="purchaseprice"><br/>
-    Deposit Percentage:<input type="number" name="deposit"><br/>
-    Bond Terms in years:<input type="number" name="years"><br/>
-    Fixed interest rate:<input type="number" name="rate"><br/>
-    <input type="submit" value="calculate">
-</form>
+<fieldset>
+    <legend>Enter Mortgage Details</legend>
+    <form action="submitform" method="post">
+        <table>
+            <tr><td>Price:</td><td><input type="number" name="purchaseprice"></td></tr>
+            <tr><td>Deposit Percentage:</td><td><input type="number" name="deposit"></td></tr>
+            <tr><td>Bond Terms in years:</td><td><input type="number" name="years"></td></tr>
+            <tr><td>Fixed interest rate:</td><td><input type="number" name="rate"></td></tr>
+
+            <tr><td><input type="submit" value="calculate">
+        </table>
+    </form>
+</fieldset>
+
 </body>
 </html>
