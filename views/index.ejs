@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Results</title>
+</head>
+<body>
+<fieldset>
+    <legend>Mortgage Details</legend>
+    <pre>
+    Purchase Price:     <%='R'+purchasePrice%><br/>
+    Deposit Amount:     <%='R'+depositAmount%><br/>
+    Bond Amount:        <%='R'+bondLoan%><br/>
+    Interest Rate:      <%=ratee+'%'%><br/>
+    Bond Terms:         <%=bondTerm+'years'%><br/>
+    Monthly Installment:<%='R'+monthPayment%><br/>
+   Total Interest Amount:<%='R'+totaInterestPaid%><br/>
+   Total Home Mortgage  :<%='R'+totalMortgage%>
+        <div id="hide"><button id="details">Save Details</button></div>
+        <div id="save"></div>
+
+    </pre>
+    <form method="post" action="savedetails"  id="add"></form>
+        <script>
+            document.getElementById('details').onclick=addDetails;
+            function addDetails() {
+                document.getElementById('hide').innerHTML='';
+                document.getElementById('add').innerHTML +="<label>Name:</label>"+
+                    "<input id='name' type='text' name='dname' required autofocus>"+
+                        "<input type='submit' value='save loan details'>"
+
+            }
+            function save() {
+                document.getElementById('hide').innerHTML='';
+                document.getElementById('add').innerHTML='';
+                document.getElementById('save').innerHTML='Loan Details Saved. Thank you for using this application'
+                document.getElementById('save').innerHTML+='<a href="../index.html"><button>Do another Calculation</button></a>'
+            }
+        </script>
+    </pre>
+</fieldset>
+<fieldset>
+    <legend>Amortization</legend>
+    <table border="1">
+        <tr><th>Year</th><th>Interest Paid in %</th><th>Loan Bond paid %</th></tr>
+
+            <%for(let i=11;i<tabledata.length;i+=12){%>
+        <tr>
+           <td><%=tabledata[i].month/12%></td><td><%=(tabledata[i].interestAmountpaid/totaInterestPaid*100).toFixed(2)%></td><td><%=(tabledata[i].bondAmountPaid/bondLoan*100).toFixed(2)%></td>
+            <%}%>
+        </tr>
+    </table>
+</fieldset>
+
+
+
+</body>
+</html>
