@@ -3,9 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Results</title>
+    <style>
+        body{
+            background-color: rosybrown;
+        }
+        legend{
+            text-align: center;
+            font-size: 20px;
+        }
+        pre{
+            font-family: "Baskerville Old Face";
+            font-size: 18px;
+        }
+        #first{
+            width: 25%;
+             margin: auto;
+             float: left;
+         }
+        #second{
+            width: 20%;
+            margin: auto;
+            float: left;
+        }
+        #third{
+
+            margin: auto;
+            float: left;
+            width: 45%;
+        }
+    </style>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
 </head>
 <body>
-<fieldset>
+<fieldset id="first">
     <legend>Mortgage Details</legend>
     <pre>
     Purchase Price:     <%='R'+purchasePrice%><br/>
@@ -15,7 +46,7 @@
     Bond Terms:         <%=bondTerm+'years'%><br/>
     Monthly Installment:<%='R'+monthPayment%><br/>
    Total Interest Amount:<%='R'+totaInterestPaid%><br/>
-   Total Home Mortgage  :<%='R'+totalMortgage%>
+   Total Repayment      :<%='R'+totalMortgage%>
         <div id="hide"><button id="details">Save Details</button></div>
         <div id="save"></div>
 
@@ -39,20 +70,66 @@
         </script>
     </pre>
 </fieldset>
-<fieldset>
+<fieldset id="second">
     <legend>Amortization</legend>
     <table border="1">
         <tr><th>Year</th><th>Interest Paid in %</th><th>Loan Bond paid %</th></tr>
-
+            <%let data=[];%>
             <%for(let i=11;i<tabledata.length;i+=12){%>
         <tr>
            <td><%=tabledata[i].month/12%></td><td><%=(tabledata[i].interestAmountpaid/totaInterestPaid*100).toFixed(2)%></td><td><%=(tabledata[i].bondAmountPaid/bondLoan*100).toFixed(2)%></td>
+            <%data.push({'year':tabledata[i].month/12,'interest':(tabledata[i].interestAmountpaid/totaInterestPaid*100).toFixed(2),'loan':(tabledata[i].bondAmountPaid/bondLoan*100).toFixed(2)})%>
             <%}%>
         </tr>
     </table>
+
+
 </fieldset>
+<fieldset id="third">
+    <legend>Visualisation</legend>
+    <div id="chartContainer4" style="width: 100%; height: 400px;display: inline-block;"></div>
+</fieldset>
+<script>
+    let dataf=<%-JSON.stringify(data) %>;
+    let dataInterest=[];
+    let dataLoan=[];
+   dataf.map(obj=>dataInterest.push({x:obj.year,y:Number(obj.interest)}))
+    dataf.map(obj=>dataLoan.push({x:obj.year,y:Number(obj.loan)}))
 
-
+var chart = new CanvasJS.Chart("chartContainer4",
+        {
+            animationEnabled: true,
+            title:{
+                text: "Mortgage Amortization"
+            },
+            axisX: {
+                valueFormatString: "#"
+            },
+            axisY: {
+                postfix: "%"
+            },
+            toolTip: {
+                shared: true
+            },
+           data: [{
+                type: "stackedBar",
+                name: "Interest",
+                showInLegend: "true",
+                xValueFormatString: "year-,#",
+                yValueFormatString: "#,##%",
+                dataPoints:dataInterest
+            },
+                {
+                    type: "stackedBar",
+                    name: "Loan Paid",
+                    showInLegend: "true",
+                    xValueFormatString: "year-,#",
+                    yValueFormatString: "#,##%",
+                    dataPoints: dataLoan
+                }]
+        });
+    chart.render();
+</script>
 
 </body>
 </html>
